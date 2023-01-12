@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "side": "enigmatic_tech:block/fabricator_side",
+    "bottom": "enigmatic_tech:block/fabricator_bottom",
+    "top": "enigmatic_tech:block/fabricator_top"
+  }
+}

@@ -1,0 +1,7 @@
+e0f89e007066d67544f2f9015dddd2f04b9cbe60 assets/enigmatic_tech/blockstates/fabricator.json
+b9ad5bf8660133dddf93641703daea78c9164734 assets/enigmatic_tech/lang/en_ud.json
+4c5932f457054fe9a2f762d21311165fe837f7db assets/enigmatic_tech/lang/en_us.json
+3711cb9a11f41a48b50ee5e1113cc53682fdf6f1 assets/enigmatic_tech/models/block/fabricator.json
+39b5d6199ac3b0669dd8830b1367cdfbdbdc83d4 assets/enigmatic_tech/models/item/fabricator.json
+80337bf85c44403787dbeddd8228b783faa651fb data/enigmatic_tech/loot_tables/blocks/fabricator.json
+a849c03140a61c8d76e21392ffa4daae60f39f65 data/minecraft/tags/blocks/mineable/pickaxe.json
