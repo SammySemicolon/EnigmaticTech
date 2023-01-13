@@ -1,6 +1,8 @@
 package com.sammy.enigmatictech.setup;
 
 import com.sammy.enigmatictech.EnigmaticTechMod;
+import com.sammy.enigmatictech.content.block.fabricator.FabricatorBlock;
+import com.sammy.enigmatictech.content.block.fabricator.FabricatorBlockEntity;
 import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.builders.BlockBuilder;
 import com.tterrag.registrate.providers.loot.RegistrateBlockLootTables;
@@ -39,7 +41,7 @@ import static com.sammy.enigmatictech.EnigmaticTechMod.path;
 public class ETBlocks {
     public static final Registrate BLOCK_REGISTRATE = EnigmaticTechMod.registrate();
 
-    public static final BlockEntry<Block> FABRICATOR = setupBlock("fabricator", Block::new, BlockBehaviour.Properties.of(Material.METAL).strength(5f, 10f).sound(SoundType.METAL))
+    public static final BlockEntry<FabricatorBlock<FabricatorBlockEntity>> FABRICATOR = setupBlock("fabricator", p -> new FabricatorBlock<>(p).<FabricatorBlock<FabricatorBlockEntity>>setBlockEntity(ETBlockEntities.FABRICATOR), BlockBehaviour.Properties.of(Material.METAL).strength(5f, 10f).sound(SoundType.METAL))
             .blockstate((ctx, p) -> p.getVariantBuilder(ctx.get()).forAllStates(s -> {
                 String name = Registry.BLOCK.getKey(ctx.get()).getPath();
                 ModelFile modelFile = p.models().cubeBottomTop(name, path("block/" + name + "_side"), path("block/" + name + "_bottom"), path("block/" + name + "_top"));
