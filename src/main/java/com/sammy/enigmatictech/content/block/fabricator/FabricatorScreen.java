@@ -2,6 +2,7 @@ package com.sammy.enigmatictech.content.block.fabricator;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.sammy.enigmatictech.EnigmaticTechMod;
 import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent;
@@ -18,13 +19,15 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class FabricatorScreen extends AbstractContainerScreen<FabricatorCraftingMenu> implements RecipeUpdateListener {
-   private static final ResourceLocation CRAFTING_TABLE_LOCATION = new ResourceLocation("textures/gui/container/crafting_table.png");
+   private static final ResourceLocation CRAFTING_TABLE_LOCATION = EnigmaticTechMod.path("textures/gui/fabricator.png");
    private static final ResourceLocation RECIPE_BUTTON_LOCATION = new ResourceLocation("textures/gui/recipe_button.png");
    private final RecipeBookComponent recipeBookComponent = new RecipeBookComponent();
    private boolean widthTooNarrow;
 
    public FabricatorScreen(FabricatorCraftingMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
       super(pMenu, pPlayerInventory, pTitle);
+      this.imageHeight = 206;
+      this.inventoryLabelY = this.imageHeight - 94;
    }
 
    protected void init() {
@@ -32,10 +35,10 @@ public class FabricatorScreen extends AbstractContainerScreen<FabricatorCrafting
       this.widthTooNarrow = this.width < 379;
       this.recipeBookComponent.init(this.width, this.height, this.minecraft, this.widthTooNarrow, this.menu);
       this.leftPos = this.recipeBookComponent.updateScreenPosition(this.width, this.imageWidth);
-      this.addRenderableWidget(new ImageButton(this.leftPos + 5, this.height / 2 - 49, 20, 18, 0, 0, 19, RECIPE_BUTTON_LOCATION, (p_98484_) -> {
+      this.addRenderableWidget(new ImageButton(this.leftPos + 5, this.height / 2 - 69, 20, 18, 0, 0, 19, RECIPE_BUTTON_LOCATION, (p_98484_) -> {
          this.recipeBookComponent.toggleVisibility();
          this.leftPos = this.recipeBookComponent.updateScreenPosition(this.width, this.imageWidth);
-         ((ImageButton)p_98484_).setPosition(this.leftPos + 5, this.height / 2 - 49);
+         ((ImageButton)p_98484_).setPosition(this.leftPos + 5, this.height / 2 - 69);
       }));
       this.addWidget(this.recipeBookComponent);
       this.setInitialFocus(this.recipeBookComponent);

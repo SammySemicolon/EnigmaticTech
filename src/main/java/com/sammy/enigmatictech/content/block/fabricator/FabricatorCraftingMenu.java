@@ -24,13 +24,6 @@ import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
 public class FabricatorCraftingMenu extends RecipeBookMenu<FabricatorCraftingContainer> {
-   public static final int RESULT_SLOT = 0;
-   private static final int CRAFT_SLOT_START = 1;
-   private static final int CRAFT_SLOT_END = 10;
-   private static final int INV_SLOT_START = 10;
-   private static final int INV_SLOT_END = 37;
-   private static final int USE_ROW_SLOT_START = 37;
-   private static final int USE_ROW_SLOT_END = 46;
 
    private final ResultContainer resultSlots = new ResultContainer();
 
@@ -38,21 +31,21 @@ public class FabricatorCraftingMenu extends RecipeBookMenu<FabricatorCraftingCon
 
    private final FabricatorBlockEntity fabricatorBlockEntity;
    private final ContainerLevelAccess access;
-   private final ItemStackHandler craftingGridInventory;
-   private final ItemStackHandler quickAccessInventory;
    private final FabricatorCraftingContainer craftSlots;
+   private final FabricatorQuickAccessContainer quickAccessSlots;
 
    public FabricatorCraftingMenu(final int containerId, final Inventory playerInventory, FabricatorBlockEntity fabricatorBlockEntity) {
       super(ETMenuTypes.FABRICATOR.get(), containerId);
       this.player = playerInventory.player;
       this.fabricatorBlockEntity = fabricatorBlockEntity;
       this.access = ContainerLevelAccess.create(fabricatorBlockEntity.getLevel(), fabricatorBlockEntity.getBlockPos());
-      this.craftingGridInventory = fabricatorBlockEntity.craftingGridInventory;
-      this.quickAccessInventory = fabricatorBlockEntity.quickAccessInventory;
-      this.craftSlots = new FabricatorCraftingContainer(this, craftingGridInventory);
+      this.craftSlots = new FabricatorCraftingContainer(this, fabricatorBlockEntity.craftingGridInventory);
+      this.quickAccessSlots = new FabricatorQuickAccessContainer(this, fabricatorBlockEntity.quickAccessInventory);
       this.addSlot(new ResultSlot(playerInventory.player, this.craftSlots, this.resultSlots, 0, 124, 35));
+
       slotsChanged(craftSlots);
-      
+
+      //crafting grid
       for (int i = 0; i < 3; ++i) {
          for (int j = 0; j < 3; ++j) {
             this.addSlot(new Slot(craftSlots, j + i * 3, 30 + j * 18, 17 + i * 18));
@@ -62,18 +55,23 @@ public class FabricatorCraftingMenu extends RecipeBookMenu<FabricatorCraftingCon
       //player inventory
       for (int k = 0; k < 3; ++k) {
          for (int i1 = 0; i1 < 9; ++i1) {
-            this.addSlot(new Slot(playerInventory, i1 + k * 9 + 9, 8 + i1 * 18, 84 + k * 18));
+            this.addSlot(new Slot(playerInventory, i1 + k * 9 + 9, 8 + i1 * 18, 124 + k * 18));
          }
       }
 
       //hotbar
       for (int l = 0; l < 9; ++l) {
-         this.addSlot(new Slot(playerInventory, l, 8 + l * 18, 142));
+         this.addSlot(new Slot(playerInventory, l, 8 + l * 18, 182));
       }
 
-
-
+      //quick access inventory
+      for (int i = 0; i < 2; ++i) {
+         for (int j = 0; j < 6; ++j) {
+            this.addSlot(new Slot(quickAccessSlots, j + i * 6, 35 + j * 18, 75 + i * 18));
+         }
+      }
    }
+
    public FabricatorCraftingMenu(final int windowId, final Inventory playerInventory, final FriendlyByteBuf data) {
       this(windowId, playerInventory, getTileEntity(playerInventory, data));
    }
@@ -135,9 +133,7 @@ public class FabricatorCraftingMenu extends RecipeBookMenu<FabricatorCraftingCon
          ItemStack itemStack1 = slot.getItem();
          itemStack = itemStack1.copy();
          if (pIndex == 0) {
-            this.access.execute((p_39378_, p_39379_) -> {
-               itemStack1.getItem().onCraftedBy(itemStack1, p_39378_, pPlayer);
-            });
+            this.access.execute((p_39378_, p_39379_) -> itemStack1.getItem().onCraftedBy(itemStack1, p_39378_, pPlayer));
             if (!this.moveItemStackTo(itemStack1, 10, 46, true)) {
                return ItemStack.EMPTY;
             }
@@ -193,7 +189,7 @@ public class FabricatorCraftingMenu extends RecipeBookMenu<FabricatorCraftingCon
    }
 
    public int getSize() {
-      return 10;
+      return 22;
    }
 
    public RecipeBookType getRecipeBookType() {

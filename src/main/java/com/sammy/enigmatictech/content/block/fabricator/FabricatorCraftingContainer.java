@@ -1,13 +1,7 @@
 package com.sammy.enigmatictech.content.block.fabricator;
 
-import net.minecraft.core.NonNullList;
-import net.minecraft.world.Container;
-import net.minecraft.world.ContainerHelper;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.player.StackedContents;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.CraftingContainer;
-import net.minecraft.world.inventory.StackedContentsCompatible;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.ItemStackHandler;
 
@@ -31,7 +25,7 @@ public class FabricatorCraftingContainer extends CraftingContainer {
    public ItemStack removeItem(int slot, int count) {
       ItemStack stack = craftingGridInventory.extractItem(slot, count, false);
       if (!stack.isEmpty()) {
-         onCraftMatrixChanged();
+         updateMenu();
       }
       return stack;
    }
@@ -39,7 +33,7 @@ public class FabricatorCraftingContainer extends CraftingContainer {
    @Override
    public void setItem(int slot, ItemStack stack) {
       craftingGridInventory.setStackInSlot(slot, stack);
-      onCraftMatrixChanged();
+      updateMenu();
    }
 
    @Override
@@ -48,7 +42,7 @@ public class FabricatorCraftingContainer extends CraftingContainer {
       if (s.isEmpty()) {
          return ItemStack.EMPTY;
       }
-      onCraftMatrixChanged();
+      updateMenu();
       setItem(index, ItemStack.EMPTY);
       return s;
    }
@@ -66,7 +60,7 @@ public class FabricatorCraftingContainer extends CraftingContainer {
       this.isCrafting = isCrafting;
    }
 
-   public void onCraftMatrixChanged() {
+   public void updateMenu() {
       if (!isCrafting) {
          this.menu.slotsChanged(this);
       }
