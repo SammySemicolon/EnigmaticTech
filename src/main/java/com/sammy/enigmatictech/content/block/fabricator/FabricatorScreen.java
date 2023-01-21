@@ -92,9 +92,6 @@ public class FabricatorScreen extends AbstractContainerScreen<FabricatorCrafting
       return this.recipeBookComponent.hasClickedOutside(pMouseX, pMouseY, this.leftPos, this.topPos, this.imageWidth, this.imageHeight, pMouseButton) && flag;
    }
 
-   /**
-    * Called when the mouse is clicked over a slot or outside the gui.
-    */
    protected void slotClicked(Slot pSlot, int pSlotId, int pMouseButton, ClickType pType) {
       super.slotClicked(pSlot, pSlotId, pMouseButton, pType);
       this.recipeBookComponent.slotClicked(pSlot);

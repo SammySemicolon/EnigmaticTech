@@ -11,7 +11,6 @@ public class ETBlockEntities {
     public static final BlockEntityEntry<FabricatorBlockEntity> FABRICATOR =
             BLOCK_ENTITY_REGISTRATE.blockEntity("fabricator", FabricatorBlockEntity::new).validBlocks(ETBlocks.FABRICATOR).register();
 
-
     public static void register() {
     }
 }

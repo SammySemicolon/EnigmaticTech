@@ -51,7 +51,6 @@ public class ETBlocks {
             .tag(BlockTags.MINEABLE_WITH_PICKAXE)
             .register();
 
-
     public static <T extends Block> BlockBuilder<T, Registrate> setupBlock(String name, NonNullFunction<BlockBehaviour.Properties, T> factory, BlockBehaviour.Properties properties) {
         return BLOCK_REGISTRATE.block(name, factory).properties((x) -> properties);
     }

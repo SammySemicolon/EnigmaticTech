@@ -15,7 +15,6 @@ import net.minecraftforge.registries.RegistryObject;
 
 public class ETMenuTypes {
 
-
     public static final DeferredRegister<MenuType<?>> MENU_TYPES = DeferredRegister.create(ForgeRegistries.CONTAINERS, EnigmaticTechMod.MODID);
 
     public static final RegistryObject<MenuType<FabricatorCraftingMenu>> FABRICATOR = MENU_TYPES

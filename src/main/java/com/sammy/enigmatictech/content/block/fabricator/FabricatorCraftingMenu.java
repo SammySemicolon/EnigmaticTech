@@ -31,7 +31,7 @@ public class FabricatorCraftingMenu extends RecipeBookMenu<FabricatorCraftingCon
 
    private final FabricatorBlockEntity fabricatorBlockEntity;
    private final ContainerLevelAccess access;
-   private final FabricatorCraftingContainer craftSlots;
+   public final FabricatorCraftingContainer craftSlots;
    private final FabricatorQuickAccessContainer quickAccessSlots;
 
    public FabricatorCraftingMenu(final int containerId, final Inventory playerInventory, FabricatorBlockEntity fabricatorBlockEntity) {
@@ -41,7 +41,7 @@ public class FabricatorCraftingMenu extends RecipeBookMenu<FabricatorCraftingCon
       this.access = ContainerLevelAccess.create(fabricatorBlockEntity.getLevel(), fabricatorBlockEntity.getBlockPos());
       this.craftSlots = new FabricatorCraftingContainer(this, fabricatorBlockEntity.craftingGridInventory);
       this.quickAccessSlots = new FabricatorQuickAccessContainer(this, fabricatorBlockEntity.quickAccessInventory);
-      this.addSlot(new ResultSlot(playerInventory.player, this.craftSlots, this.resultSlots, 0, 124, 35));
+      this.addSlot(new FabricatorResultSlot(playerInventory.player, this, this.resultSlots, 0, 124, 35));
 
       slotsChanged(craftSlots);
 
