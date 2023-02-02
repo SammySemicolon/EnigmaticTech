@@ -1,9 +1,6 @@
 package com.sammy.enigmatictech;
 
-import com.sammy.enigmatictech.setup.ETBlockEntities;
-import com.sammy.enigmatictech.setup.ETBlocks;
-import com.sammy.enigmatictech.setup.ETItems;
-import com.sammy.enigmatictech.setup.ETMenuTypes;
+import com.sammy.enigmatictech.setup.*;
 import com.tterrag.registrate.Registrate;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
@@ -50,6 +47,9 @@ public class EnigmaticTechMod {
 		ETItems.register();
 		ETBlocks.register();
 
+
+		ETRecipeTypes.RECIPE_TYPES.register(modBus);
+		ETRecipeSerializers.RECIPE_SERIALIZERS.register(modBus);
 		ETMenuTypes.MENU_TYPES.register(modBus);
 
 	}

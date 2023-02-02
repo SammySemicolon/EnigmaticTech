@@ -1,5 +1,7 @@
 package com.sammy.enigmatictech.content.block.fabricator;
 
+import com.sammy.enigmatictech.content.block.fabricator.menu.AbstractFabricatorMenu;
+import com.sammy.enigmatictech.content.block.fabricator.menu.BlockEntityFabricatorMenu;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -8,7 +10,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.MenuProvider;
-import net.minecraft.world.Nameable;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -73,6 +74,6 @@ public class FabricatorBlockEntity extends LodestoneBlockEntity implements MenuP
     @Nullable
     @Override
     public AbstractContainerMenu createMenu(int id, Inventory inventory, Player pPlayer) {
-        return new FabricatorCraftingMenu(id, inventory, this);
+        return new BlockEntityFabricatorMenu(id, inventory, this);
     }
 }

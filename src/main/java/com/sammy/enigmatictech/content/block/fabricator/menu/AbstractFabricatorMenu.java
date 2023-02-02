@@ -1,10 +1,16 @@
-package com.sammy.enigmatictech.content.block.fabricator;
+package com.sammy.enigmatictech.content.block.fabricator.menu;
 
 import java.util.Objects;
 import java.util.Optional;
 
+import com.sammy.enigmatictech.content.block.fabricator.FabricatorBlockEntity;
+import com.sammy.enigmatictech.content.block.fabricator.FabricatorCraftingContainer;
+import com.sammy.enigmatictech.content.block.fabricator.FabricatorQuickAccessContainer;
+import com.sammy.enigmatictech.content.block.fabricator.FabricatorResultSlot;
+import com.sammy.enigmatictech.content.block.fabricator.recipe.FabricatorRecipe;
 import com.sammy.enigmatictech.setup.ETBlocks;
 import com.sammy.enigmatictech.setup.ETMenuTypes;
+import com.sammy.enigmatictech.setup.ETRecipeTypes;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.game.ClientboundContainerSetSlotPacket;
 import net.minecraft.server.level.ServerPlayer;
@@ -18,29 +24,23 @@ import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.items.ItemStackHandler;
-import net.minecraftforge.items.SlotItemHandler;
 
-public class FabricatorCraftingMenu extends RecipeBookMenu<FabricatorCraftingContainer> {
+public abstract class AbstractFabricatorMenu extends RecipeBookMenu<FabricatorCraftingContainer> {
 
-   private final ResultContainer resultSlots = new ResultContainer();
+   protected final ResultContainer resultSlots = new ResultContainer();
 
-   private final Player player;
-
-   private final FabricatorBlockEntity fabricatorBlockEntity;
-   private final ContainerLevelAccess access;
+   protected final Player player;
+   protected final ContainerLevelAccess access;
    public final FabricatorCraftingContainer craftSlots;
-   private final FabricatorQuickAccessContainer quickAccessSlots;
 
-   public FabricatorCraftingMenu(final int containerId, final Inventory playerInventory, FabricatorBlockEntity fabricatorBlockEntity) {
-      super(ETMenuTypes.FABRICATOR.get(), containerId);
+   public AbstractFabricatorMenu(MenuType<?> pMenuType, final int containerId, final Inventory playerInventory, ContainerLevelAccess access, ItemStackHandler craftingGridInventory, ItemStackHandler quickAccessInventory) {
+      super(pMenuType, containerId);
       this.player = playerInventory.player;
-      this.fabricatorBlockEntity = fabricatorBlockEntity;
-      this.access = ContainerLevelAccess.create(fabricatorBlockEntity.getLevel(), fabricatorBlockEntity.getBlockPos());
-      this.craftSlots = new FabricatorCraftingContainer(this, fabricatorBlockEntity.craftingGridInventory);
-      this.quickAccessSlots = new FabricatorQuickAccessContainer(this, fabricatorBlockEntity.quickAccessInventory);
+      this.access = access;
+      this.craftSlots = new FabricatorCraftingContainer(this, craftingGridInventory);
+      FabricatorQuickAccessContainer quickAccessSlots = new FabricatorQuickAccessContainer(this, quickAccessInventory);
       this.addSlot(new FabricatorResultSlot(playerInventory.player, this, this.resultSlots, 0, 124, 35));
 
       slotsChanged(craftSlots);
@@ -55,13 +55,13 @@ public class FabricatorCraftingMenu extends RecipeBookMenu<FabricatorCraftingCon
       //player inventory
       for (int k = 0; k < 3; ++k) {
          for (int i1 = 0; i1 < 9; ++i1) {
-            this.addSlot(new Slot(playerInventory, i1 + k * 9 + 9, 8 + i1 * 18, 124 + k * 18));
+            this.addSlot(new Slot(playerInventory, i1 + k * 9 + 9, 8 + i1 * 18, 130 + k * 18));
          }
       }
 
       //hotbar
       for (int l = 0; l < 9; ++l) {
-         this.addSlot(new Slot(playerInventory, l, 8 + l * 18, 182));
+         this.addSlot(new Slot(playerInventory, l, 8 + l * 18, 188));
       }
 
       //quick access inventory
@@ -72,30 +72,26 @@ public class FabricatorCraftingMenu extends RecipeBookMenu<FabricatorCraftingCon
       }
    }
 
-   public FabricatorCraftingMenu(final int windowId, final Inventory playerInventory, final FriendlyByteBuf data) {
-      this(windowId, playerInventory, getTileEntity(playerInventory, data));
-   }
-
-   private static FabricatorBlockEntity getTileEntity(final Inventory playerInventory, final FriendlyByteBuf data) {
-      Objects.requireNonNull(playerInventory, "playerInventory cannot be null");
-      Objects.requireNonNull(data, "data cannot be null");
-      final BlockEntity tileAtPos = playerInventory.player.level.getBlockEntity(data.readBlockPos());
-      if (tileAtPos instanceof FabricatorBlockEntity fabricatorBlockEntity) {
-         return fabricatorBlockEntity;
-      }
-      throw new IllegalStateException("Tile entity is not correct! " + tileAtPos);
-   }
-
 
    protected static void slotChangedCraftingGrid(AbstractContainerMenu menu, Level level, Player player, FabricatorCraftingContainer fabricatorCraftingContainer, ResultContainer resultContainer) {
       if (!level.isClientSide) {
          ServerPlayer serverplayer = (ServerPlayer) player;
          ItemStack itemstack = ItemStack.EMPTY;
-         Optional<CraftingRecipe> optional = level.getServer().getRecipeManager().getRecipeFor(RecipeType.CRAFTING, fabricatorCraftingContainer, level);
-         if (optional.isPresent()) {
-            CraftingRecipe craftingrecipe = optional.get();
-            if (resultContainer.setRecipeUsed(level, serverplayer, craftingrecipe)) {
-               itemstack = craftingrecipe.assemble(fabricatorCraftingContainer);
+
+         Optional<FabricatorRecipe> fabricatorOptional = level.getServer().getRecipeManager().getRecipeFor(ETRecipeTypes.FABRICATING.get(), fabricatorCraftingContainer, level);
+         if (fabricatorOptional.isPresent()) {
+            FabricatorRecipe fabricatingRecipe = fabricatorOptional.get();
+            if (resultContainer.setRecipeUsed(level, serverplayer, fabricatingRecipe)) {
+               itemstack = fabricatingRecipe.assemble(fabricatorCraftingContainer);
+            }
+         }
+         else {
+            Optional<CraftingRecipe> craftingOptional = level.getServer().getRecipeManager().getRecipeFor(RecipeType.CRAFTING, fabricatorCraftingContainer, level);
+            if (craftingOptional.isPresent()) {
+               CraftingRecipe craftingRecipe = craftingOptional.get();
+               if (resultContainer.setRecipeUsed(level, serverplayer, craftingRecipe)) {
+                  itemstack = craftingRecipe.assemble(fabricatorCraftingContainer);
+               }
             }
          }
 

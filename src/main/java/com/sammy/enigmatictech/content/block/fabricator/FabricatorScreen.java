@@ -3,6 +3,7 @@ package com.sammy.enigmatictech.content.block.fabricator;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.sammy.enigmatictech.EnigmaticTechMod;
+import com.sammy.enigmatictech.content.block.fabricator.menu.AbstractFabricatorMenu;
 import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent;
@@ -12,21 +13,20 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.ClickType;
-import net.minecraft.world.inventory.CraftingMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class FabricatorScreen extends AbstractContainerScreen<FabricatorCraftingMenu> implements RecipeUpdateListener {
+public class FabricatorScreen extends AbstractContainerScreen<AbstractFabricatorMenu> implements RecipeUpdateListener {
    private static final ResourceLocation CRAFTING_TABLE_LOCATION = EnigmaticTechMod.path("textures/gui/fabricator.png");
    private static final ResourceLocation RECIPE_BUTTON_LOCATION = new ResourceLocation("textures/gui/recipe_button.png");
    private final RecipeBookComponent recipeBookComponent = new RecipeBookComponent();
    private boolean widthTooNarrow;
 
-   public FabricatorScreen(FabricatorCraftingMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
+   public FabricatorScreen(AbstractFabricatorMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
       super(pMenu, pPlayerInventory, pTitle);
-      this.imageHeight = 206;
+      this.imageHeight = 212;
       this.inventoryLabelY = this.imageHeight - 94;
    }
 
@@ -42,7 +42,8 @@ public class FabricatorScreen extends AbstractContainerScreen<FabricatorCrafting
       }));
       this.addWidget(this.recipeBookComponent);
       this.setInitialFocus(this.recipeBookComponent);
-      this.titleLabelX = 29;
+      this.titleLabelY = 6;
+      this.titleLabelX = 30;
    }
 
    public void containerTick() {
@@ -72,6 +73,12 @@ public class FabricatorScreen extends AbstractContainerScreen<FabricatorCrafting
       int i = this.leftPos;
       int j = (this.height - this.imageHeight) / 2;
       this.blit(pPoseStack, i, j, 0, 0, this.imageWidth, this.imageHeight);
+   }
+
+   @Override
+   protected void renderLabels(PoseStack pPoseStack, int pX, int pY) {
+      this.font.draw(pPoseStack, this.title, (float)this.titleLabelX, (float)this.titleLabelY, 5263460);
+      this.font.draw(pPoseStack, this.playerInventoryTitle, (float)this.inventoryLabelX, (float)this.inventoryLabelY, 4210752);
    }
 
    protected boolean isHovering(int pX, int pY, int pWidth, int pHeight, double pMouseX, double pMouseY) {
