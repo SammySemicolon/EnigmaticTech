@@ -58,8 +58,6 @@ public class JEIHandler implements IModPlugin {
         registration.addRecipeTransferHandler(PortableFabricatorMenu.class, FabricatingCategory.FABRICATING, 1, 9, 10, 36);
         registration.addRecipeTransferHandler(PortableFabricatorMenu.class, RecipeTypes.CRAFTING, 1, 9, 10, 36);
 
-
-        registration.addRecipeTransferHandler(CraftingMenu.class, FabricatingCategory.FABRICATING, 1, 9, 10, 36);
     }
 
     @Nonnull
