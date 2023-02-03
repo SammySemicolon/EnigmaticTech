@@ -12,6 +12,7 @@ import com.tterrag.registrate.util.nullness.NonNullFunction;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.Registry;
+import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.Items;
@@ -32,10 +33,12 @@ import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
 import net.minecraftforge.client.model.generators.ModelFile;
+import net.minecraftforge.common.Tags;
 
 import java.util.function.Function;
 
 import static com.sammy.enigmatictech.EnigmaticTechMod.path;
+import static com.tterrag.registrate.providers.RegistrateRecipeProvider.has;
 
 
 public class ETBlocks {
@@ -47,7 +50,13 @@ public class ETBlocks {
                 ModelFile modelFile = p.models().cubeBottomTop(name, path("block/" + name + "_side"), path("block/" + name + "_bottom"), path("block/" + name + "_top"));
                 return ConfiguredModel.builder().modelFile(modelFile).build();
             }))
-            .simpleItem()
+            .item().recipe((c, p) ->
+                    ShapedRecipeBuilder.shaped(c.get())
+                            .define('X', Items.POLISHED_DEEPSLATE)
+                            .define('Y', Items.CRAFTING_TABLE)
+                            .pattern("XXX").pattern("XYX").pattern("XXX")
+                            .unlockedBy("has_deepslate", has(Items.POLISHED_DEEPSLATE)).save(p, EnigmaticTechMod.path("has_deepslate")))
+            .build()
             .tag(BlockTags.MINEABLE_WITH_PICKAXE)
             .register();
 

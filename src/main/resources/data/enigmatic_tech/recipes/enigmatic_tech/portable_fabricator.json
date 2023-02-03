@@ -1,0 +1,19 @@
+{
+  "type": "enigmatic_tech:fabricating_shaped",
+  "pattern": [
+    "Y Y",
+    "YXY",
+    "Y Y"
+  ],
+  "key": {
+    "X": {
+      "item": "minecraft:crafting_table"
+    },
+    "Y": {
+      "item": "minecraft:polished_deepslate"
+    }
+  },
+  "result": {
+    "item": "enigmatic_tech:portable_fabricator"
+  }
+}

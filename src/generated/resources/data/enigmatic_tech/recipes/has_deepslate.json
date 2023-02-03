@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "XXX",
+    "XYX",
+    "XXX"
+  ],
+  "key": {
+    "X": {
+      "item": "minecraft:polished_deepslate"
+    },
+    "Y": {
+      "item": "minecraft:crafting_table"
+    }
+  },
+  "result": {
+    "item": "enigmatic_tech:fabricator"
+  }
+}

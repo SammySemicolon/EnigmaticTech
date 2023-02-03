@@ -19,7 +19,7 @@ import static com.sammy.enigmatictech.EnigmaticTechMod.MODID;
 public class ETItems {
     public static final Registrate ITEM_REGISTRATE = EnigmaticTechMod.registrate();
 
-    public static final ItemEntry<PortableFabricator> MILK_CUP = setupItem("milk_cup", PortableFabricator::new).properties(p -> p.stacksTo(1)).register();
+    public static final ItemEntry<PortableFabricator> PORTABLE_FABRICATOR = setupItem("portable_fabricator", PortableFabricator::new).properties(p -> p.stacksTo(1)).register();
 
     public static <T extends Item> ItemBuilder<T, Registrate> setupItem(String name, FoodProperties foodProperties, NonNullFunction<Item.Properties, T> factory) {
         return setupItem(name, factory).properties(p -> p.food(foodProperties));
