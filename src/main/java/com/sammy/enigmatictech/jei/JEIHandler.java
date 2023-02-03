@@ -3,6 +3,8 @@ package com.sammy.enigmatictech.jei;
 import com.sammy.enigmatictech.EnigmaticTechMod;
 import com.sammy.enigmatictech.content.block.fabricator.menu.AbstractFabricatorMenu;
 import com.sammy.enigmatictech.content.block.fabricator.FabricatorScreen;
+import com.sammy.enigmatictech.content.block.fabricator.menu.BlockEntityFabricatorMenu;
+import com.sammy.enigmatictech.content.block.fabricator.menu.PortableFabricatorMenu;
 import com.sammy.enigmatictech.setup.ETBlocks;
 import com.sammy.enigmatictech.setup.ETRecipeTypes;
 import mezz.jei.api.IModPlugin;
@@ -50,8 +52,11 @@ public class JEIHandler implements IModPlugin {
 
     @Override
     public void registerRecipeTransferHandlers(IRecipeTransferRegistration registration) {
-        registration.addRecipeTransferHandler(AbstractFabricatorMenu.class, FabricatingCategory.FABRICATING, 1, 9, 10, 36);
-        registration.addRecipeTransferHandler(AbstractFabricatorMenu.class, RecipeTypes.CRAFTING, 1, 9, 10, 36);
+        registration.addRecipeTransferHandler(BlockEntityFabricatorMenu.class, FabricatingCategory.FABRICATING, 1, 9, 10, 36);
+        registration.addRecipeTransferHandler(BlockEntityFabricatorMenu.class, RecipeTypes.CRAFTING, 1, 9, 10, 36);
+
+        registration.addRecipeTransferHandler(PortableFabricatorMenu.class, FabricatingCategory.FABRICATING, 1, 9, 10, 36);
+        registration.addRecipeTransferHandler(PortableFabricatorMenu.class, RecipeTypes.CRAFTING, 1, 9, 10, 36);
 
 
         registration.addRecipeTransferHandler(CraftingMenu.class, FabricatingCategory.FABRICATING, 1, 9, 10, 36);

@@ -151,7 +151,7 @@ jar {
 }
 shadowJar {
     configurations = [project.configurations.shade]
-    relocate 'com.tterrag.registrate', 'com.sammy.enigmatic_tech.repack.registrate'
+    relocate 'com.tterrag.registrate', 'com.sammy.enigmatictech.repack.registrate'
 }
 reobf {
     shadowJar {}
