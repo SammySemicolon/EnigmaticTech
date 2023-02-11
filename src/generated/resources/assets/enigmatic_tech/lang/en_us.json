@@ -1,4 +1,6 @@
 {
   "block.enigmatic_tech.fabricator": "Fabricator",
+  "gui.enigmatic_tech.category.fabricator": "Fabricating",
+  "item.enigmatic_tech.portable_fabricator": "Portable Fabricator",
   "itemGroup.enigmatic_tech": "Enigmatic Tech"
 }

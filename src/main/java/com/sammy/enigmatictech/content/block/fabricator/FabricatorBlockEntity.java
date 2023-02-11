@@ -10,11 +10,14 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.MenuProvider;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
@@ -54,6 +57,23 @@ public class FabricatorBlockEntity extends LodestoneBlockEntity implements MenuP
         craftingGridInventory.deserializeNBT(compound.getCompound("craftingGridInventory"));
         quickAccessInventory.deserializeNBT(compound.getCompound("quickAccessInventory"));
         super.load(compound);
+    }
+
+    @Override
+    public void onBreak(@Nullable Player player) {
+        Vec3 pos = BlockHelper.fromBlockPos(getBlockPos()).add(0.5, 0.5, 0.5);
+        for (int i = 0; i < craftingGridInventory.getSlots(); i++) {
+            ItemStack stack = craftingGridInventory.getStackInSlot(i);
+            if (!stack.isEmpty()) {
+                level.addFreshEntity(new ItemEntity(level, pos.x(), pos.y(), pos.z(), stack));
+            }
+        }
+        for (int i = 0; i < quickAccessInventory.getSlots(); i++) {
+            ItemStack stack = quickAccessInventory.getStackInSlot(i);
+            if (!stack.isEmpty()) {
+                level.addFreshEntity(new ItemEntity(level, pos.x(), pos.y(), pos.z(), stack));
+            }
+        }
     }
 
 

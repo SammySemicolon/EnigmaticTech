@@ -1,3 +1,4 @@
 {
-	"gui.enigmatic_tech.category.fabricator": "Fabricator"
+	"gui.enigmatic_tech.category.fabricator": "Fabricating",
+	"itemGroup.enigmatic_tech": "Enigmatic Tech"
 }
