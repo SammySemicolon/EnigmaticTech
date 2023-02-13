@@ -2,6 +2,7 @@ package com.sammy.enigmatictech.content.block.fabricator;
 
 import com.sammy.enigmatictech.content.block.fabricator.menu.AbstractFabricatorMenu;
 import com.sammy.enigmatictech.content.block.fabricator.menu.BlockEntityFabricatorMenu;
+import net.minecraft.client.renderer.entity.LightningBoltRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;

@@ -2,13 +2,13 @@ modLoader = "javafml"
 loaderVersion = "[39,)"
 license = "All rights reserved"
 [[mods]]
-logoFile = "enigmatic_tech.png"
+logoFile = "icon.png"
 modId = "enigmatic_tech"
 version = "${file.jarVersion}"
 displayName = "Enigmatic Tech"
 authors = "Sammy;"
 description = '''
-An work in progress high level technology mod.
+A work in progress high level technology mod.
 '''
 [[dependencies.enigmatic_tech]]
 modId = "forge"
@@ -16,7 +16,7 @@ mandatory = true
 versionRange = "[39,)"
 ordering = "NONE"
 side = "BOTH"
-[[dependencies.malum]]
+[[dependencies.enigmatic_tech]]
 modId="lodestone"
 mandatory=true
 versionRange="[FORGE-1.18.2-1.3,)"
